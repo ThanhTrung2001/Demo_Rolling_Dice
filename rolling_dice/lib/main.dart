@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rolling_dice/view/rolling_page_2.dart';
+import 'package:rolling_dice/view/testpage.dart';
 
 void main() {
-  runApp(const ProviderScope(child: Call_material()));
+  runApp(const ProviderScope(child: CallMaterial()));
 }
 
-class Call_material extends StatelessWidget {
-  const Call_material({Key? key}) : super(key: key);
+class CallMaterial extends StatelessWidget {
+  const CallMaterial({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class Call_material extends StatelessWidget {
           color: Colors.black, //change your color here
         ),
       ),
-      home: const Rolling_Page_2(),
+      home: const TestPage(),
     );
   }
 }

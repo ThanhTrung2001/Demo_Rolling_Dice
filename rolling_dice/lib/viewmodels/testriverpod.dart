@@ -5,8 +5,8 @@ import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
 
-class ActionList extends StateNotifier<List<ActionForAnimal>> {
-  ActionList() : super(actionlist);
+class ActionList2 extends StateNotifier<List<ActionForAnimal>> {
+  ActionList2() : super([]);
 
   void add(String newAction) {
     state = [...state, ActionForAnimal(uuid.v4(), newAction)];
@@ -36,7 +36,8 @@ class ActionList extends StateNotifier<List<ActionForAnimal>> {
   }
 }
 
-final ActionListProvider =
-    StateNotifierProvider<ActionList, List<ActionForAnimal>>((ref) {
-  return ActionList();
+final actionListProvider2 =
+    StateNotifierProvider<ActionList2, List<ActionForAnimal>>((ref) {
+  return ActionList2();
 });
+

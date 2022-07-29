@@ -19,8 +19,29 @@ class AnimalList extends StateNotifier<List<Animal>> {
   }
 
   void delete(Animal animal) {
-
-    state = state.where((element) => element.id != animal.id).toList();
+    //1 state = state.where((element) => element.animalName != animal.animalName).toList();
+    //2 final list = state
+    //     .where((element) => element.animalName != animal.animalName)
+    //     .toList();
+    // list.length = state
+    //     .where((element) => element.animalName != animal.animalName)
+    //     .toList()
+    //     .length;
+    // state = [
+    //   for (int i = 0; i < list.length; i++)
+    //     Animal(list[i].id, list[i].animalName)
+    // ];
+    // print(state.length);
+    // for (int i = 0; i < state.length; i++) {
+    //   print(state[i].animalName);
+    // }
+    var list = state.map((e) => Animal(e.id, e.animalName)).toList();
+    list.removeWhere((element) => element.id == animal.id);
+    state = list;
+    // print(state.length);
+    // state.forEach((element) {
+    //   print(element.animalName);
+    // });
   }
 }
 

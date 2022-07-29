@@ -15,17 +15,22 @@ class InputPage extends ConsumerStatefulWidget {
 }
 
 class _InputPageState extends ConsumerState<InputPage> {
+  final actioncontroller = TextEditingController();
+  final animalcontroller = TextEditingController();
+  String animalnew = '';
+  String actionnew = '';
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    String animalnew = '';
-    String actionnew = '';
-    final AnimalList notifier = ref.read(AnimalListProvider.notifier);
-    final List<Animal> animalLists = ref.watch(AnimalListProvider);
-    final animalcontroller = TextEditingController();
-    final ActionList notifieraction = ref.read(ActionListProvider.notifier);
-    final List<ActionForAnimal> actionLists = ref.watch(ActionListProvider);
-    final actioncontroller = TextEditingController();
+    // final notifier = ref.read(AnimalListProvider.notifier);
+
+    // final notifieraction = ref.read(ActionListProvider.notifier);
+
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(
@@ -55,7 +60,9 @@ class _InputPageState extends ConsumerState<InputPage> {
                             dialog_title: 'Insert your new Animal: ',
                             dialog_input: animalnew,
                             press: () {
-                              notifier.add(animalcontroller.text);
+                              ref
+                                  .read(AnimalListProvider.notifier)
+                                  .add(animalcontroller.text);
                               Navigator.of(context).pop();
                             },
                           );
@@ -69,32 +76,7 @@ class _InputPageState extends ConsumerState<InputPage> {
               SizedBox(
                 height: 170,
                 width: size.width,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: animalLists.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                        width: 170,
-                        child: DiceItem(
-                            itemname: animalLists[index].animalName,
-                            delete: () {
-                              notifier.delete(animalLists[index]);
-                            },
-                            saveInput: (value) {
-                              if (value != '') {
-                                notifier.edit(animalLists[index].id, value);
-                              }
-                              // notifier.edit(animalLists[index].id,
-                              //     animalcontroller1.text);
-                            }));
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      width: 10,
-                    );
-                  },
-                ),
+                child: ListviewAnimal(),
               ),
               const SizedBox(
                 height: 20,
@@ -113,7 +95,9 @@ class _InputPageState extends ConsumerState<InputPage> {
                             dialog_title: 'Insert your new Action: ',
                             dialog_input: actionnew,
                             press: () {
-                              notifieraction.add(actioncontroller.text);
+                              ref
+                                  .read(ActionListProvider.notifier)
+                                  .add(actioncontroller.text);
                               Navigator.of(context).pop();
                             },
                           );
@@ -129,31 +113,90 @@ class _InputPageState extends ConsumerState<InputPage> {
               SizedBox(
                 height: 170,
                 width: size.width,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  itemCount: actionLists.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                        width: 170,
-                        child: DiceItem(
-                            itemname: actionLists[index].action,
-                            delete: () {
-                              notifieraction.delete(actionLists[index]);
-                            },
-                            saveInput: (value) {
-                              notifieraction.edit(actionLists[index].id, value);
-                            }));
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(
-                      width: 10,
-                    );
-                  },
-                ),
+                child: ListviewAction(),
               ),
             ],
           ),
         ));
+  }
+}
+
+class ListviewAction extends ConsumerWidget {
+  const ListviewAction({
+    Key? key,
+  }) : super(key: key);
+      
+  @override
+  Widget build(BuildContext context, ref) {
+    final actionLists = ref.watch(ActionListProvider);
+    return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      shrinkWrap: true,
+      itemCount: actionLists.length,
+      itemBuilder: (context, index) {
+        return SizedBox(
+            width: 170,
+            child: DiceItem(
+                itemname: actionLists[index].action,
+                delete: () {
+                  print(actionLists[index].action);
+                  ref
+                      .read(ActionListProvider.notifier)
+                      .delete(actionLists[index]);
+                },
+                saveInput: (value) {
+                  ref
+                      .read(ActionListProvider.notifier)
+                      .edit(actionLists[index].id, value);
+                }));
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const SizedBox(
+          width: 10,
+        );
+      },
+    );
+  }
+}
+
+//animal
+class ListviewAnimal extends ConsumerWidget {
+  const ListviewAnimal({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final animalLists = ref.watch(AnimalListProvider);
+    return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      shrinkWrap: true,
+      itemCount: animalLists.length,
+      itemBuilder: (context, index) {
+        return SizedBox(
+            width: 170,
+            child: DiceItem(
+                itemname: animalLists[index].animalName,
+                delete: () async {
+                  ref
+                      .read(AnimalListProvider.notifier)
+                      .delete(animalLists[index]);
+                },
+                saveInput: (value) {
+                  if (value != '') {
+                    ref
+                        .read(AnimalListProvider.notifier)
+                        .edit(animalLists[index].id, value);
+                  }
+                  // notifier.edit(animalLists[index].id,
+                  //     animalcontroller1.text);
+                }));
+      },
+      separatorBuilder: (BuildContext context, int index) {
+        return const SizedBox(
+          width: 10,
+        );
+      },
+    );
   }
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DiceItem extends ConsumerStatefulWidget {
+class DiceItemTest extends ConsumerStatefulWidget {
   final String itemname;
   final VoidCallback delete;
   final ValueChanged saveInput;
 
-  const DiceItem(
+  const DiceItemTest(
       {Key? key,
       required this.itemname,
       required this.delete,
@@ -17,7 +17,7 @@ class DiceItem extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _DiceItemState();
 }
 
-class _DiceItemState extends ConsumerState<DiceItem> {
+class _DiceItemState extends ConsumerState<DiceItemTest> {
   @override
   Widget build(BuildContext context) {
     return Container(

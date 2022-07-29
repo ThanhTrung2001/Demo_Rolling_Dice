@@ -13,7 +13,7 @@ import 'package:rolling_dice/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const Call_material());
+    await tester.pumpWidget(const CallMaterial());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

@@ -1,7 +1,7 @@
 class ActionForAnimal {
-  final String action;
+  String action;
   final String id;
-  const ActionForAnimal(this.id, this.action);
+   ActionForAnimal(this.id, this.action);
 }
 
 List<ActionForAnimal> actionlist = [
